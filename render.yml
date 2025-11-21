@@ -1,0 +1,43 @@
+# render.yaml
+version: 1
+services:
+  - type: web
+    name: nestor-backend
+    env: docker
+    region: oregon
+    repo: https://github.com/amele2290/Nestor
+    branch: main
+    dockerfilePath: backend/Dockerfile
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: REPLACE_WITH_JWT_SECRET
+      - key: RAZORPAY_KEY_ID
+        value: REPLACE_WITH_ID
+      - key: RAZORPAY_KEY_SECRET
+        value: REPLACE_WITH_SECRET
+      - key: RAZORPAY_WEBHOOK_SECRET
+        value: REPLACE_WITH_WEBHOOK_SECRET
+      - key: NEXT_PUBLIC_API_URL
+        value: https://nestor-frontend.onrender.com
+  - type: web
+    name: nestor-frontend
+    env: docker
+    region: oregon
+    repo: https://github.com/amele2290/Nestor
+    branch: main
+    dockerfilePath: frontend/Dockerfile
+    plan: starter
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        value: https://nestor-backend.onrender.com
+databases:
+  - name: nestor-db
+    databaseName: nestor
+    plan: starter
+    region: oregon
