@@ -1,7 +1,13 @@
 FROM node:18-alpine
-WORKDIR /app
+WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install
+RUN npm ci --production=false
 COPY . .
-EXPOSE 4000
-CMD ["npm","run","start:dev"]
+# If using Prisma ensure client generated during build
+RUN if [ -f prisma/schema.prisma ]; then npx prisma generate; fi
+RUN npm run build
+RUN chmod +x ./entrypoint.sh
+ENV NODE_ENV=production
+# Expose optional
+EXPOSE 10000
+CMD ["./entrypoint.sh"]
