@@ -3,9 +3,11 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const port = process.env.PORT || 4000;
+  const port = process.env.PORT || 3000;
   app.enableCors();
   await app.listen(port);
   console.log(`Backend listening on http://localhost:${port}`);
 }
 bootstrap();
+
+
